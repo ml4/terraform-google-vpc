@@ -4,37 +4,30 @@ variable "prefix" {
   description = "main prefix in front of most infra for multi-user accounts"
 }
 
-variable "vpc_name" {
-  type        = string
-  description = "Name of VPC network"
+variable "googleProject" {
+  type = string
 }
 
-# variable "project_id" {
-#   type        = string
-#   description = "Project ID of GCP Project in which resources will reside in"
-# }
-
-# variable "region" {
-#   type        = string
-#   description = "GCP region"
-# }
-
-variable "subnetworks_private" {
-  type = map(object(
-    {
-      name          = string
-      ip_cidr_range = string
-    }
-  ))
-  description = "Map of objects of GCP private subnetworks to provision"
+variable "googlePrimaryRegion" {
+  type = string
 }
 
-variable "subnetworks_public" {
+variable "publicSubnetCidrs" {
   type = map(object(
     {
-      name          = string
-      ip_cidr_range = string
+      name = string
+      cidr = string
     }
   ))
-  description = "Map of objects of GCP publicsubnetworks to provision"
+  description = "GCP public subnets"
+}
+
+variable "privateSubnetCidrs" {
+  type = map(object(
+    {
+      name = string
+      cidr = string
+    }
+  ))
+  description = "GCP private subnets"
 }
