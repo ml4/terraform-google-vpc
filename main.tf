@@ -54,8 +54,7 @@ resource "google_compute_address" "hcNatIp" {
 resource "google_compute_router_nat" "hcNgw" {
   name                               = "${var.prefix}-ngw"
   router                             = google_compute_router.hcRtr.name
-  nat_ip_allocate_option             = "MANUAL_ONLY"
-  nat_ips                            = google_compute_address.hcNatIp.*.self_link
+  nat_ip_allocate_option             = "AUTO_ONLY"
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
   depends_on                         = [
     google_compute_address.hcNatIp
