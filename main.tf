@@ -58,7 +58,7 @@ resource "google_compute_router_nat" "hcNgw" {
   nat_ips                            = ["${google_compute_address.hcNatIp.*.self_link}"]
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
   depends_on                         = [
-    google_compute_address.project-nat-ips
+    google_compute_address.hcNatIp
   ]
 }
 
