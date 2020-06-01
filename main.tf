@@ -47,8 +47,8 @@ resource "google_compute_address" "hcNatIp" {
   for_each = var.publicSubnetCidrs
 
   name    = "${var.prefix}-${each.value.name}"
-  project = "${var.googleProject}"
-  region  = "${var.googlePrimaryRegion}"
+  project = var.googleProject
+  region  = var.googlePrimaryRegion
 }
 
 resource "google_compute_router_nat" "hcNgw" {
