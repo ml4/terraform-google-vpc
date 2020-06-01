@@ -4,11 +4,11 @@ variable "prefix" {
   description = "main prefix in front of most infra for multi-user accounts"
 }
 
-variable "project" {
+variable "googleProject" {
   type = string
 }
 
-variable "primaryRegion" {
+variable "googlePrimaryRegion" {
   type = string
 }
 
