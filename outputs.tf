@@ -1,5 +1,5 @@
 ## outputs.tf child module terraform configuration
-## Nomenclature: <d>-<e>-<f>-<g>[-<h>]
+## Nomenclature: <d>-<e>-<f>-<g>-<h>
 ## where
 ## d = linked resource abbreviation (some resources in a mod are only there to support a main resource)
 ## e = abbreviated resource
@@ -30,37 +30,37 @@ output "vpc-gcn-hcVpc-gatewayIpv4" {
 ## private subnet
 #
 output "vpc-gcsn-hcPrivate-ipCidrRange" {
-  value = [google_compute_subnetwork.hcPrivate.*.ip_cidr_range]
+  value = google_compute_subnetwork.hcPrivate[*].ip_cidr_range
 }
 
 output "vpc-gcsn-hcPrivate-name" {
-  value = [google_compute_subnetwork.hcPrivate.*.name]
+  value = google_compute_subnetwork.hcPrivate[*].name
 }
 
 output "vpc-gcsn-hcPrivate-region" {
-  value = [google_compute_subnetwork.hcPrivate.*.region]
+  value = google_compute_subnetwork.hcPrivate[*].region
 }
 
 output "vpc-gcsn-hcPrivate-gatewayAddress" {
-  value = [google_compute_subnetwork.hcPrivate.*.gateway_address]
+  value = google_compute_subnetwork.hcPrivate[*].gateway_address
 }
 
 ## public subnet
 #
 output "vpc-gcsn-hcPublic-ipCidrRange" {
-  value = [google_compute_subnetwork.hcPublic.*.ip_cidr_range]
+  value = google_compute_subnetwork.hcPublic[*].ip_cidr_range
 }
 
 output "vpc-gcsn-hcPublic-name" {
-  value = [google_compute_subnetwork.hcPublic.*.name]
+  value = google_compute_subnetwork.hcPublic[*].name
 }
 
 output "vpc-gcsn-hcPublic-region" {
-  value = [google_compute_subnetwork.hcPublic.*.region]
+  value = google_compute_subnetwork.hcPublic[*].region
 }
 
 output "vpc-gcsn-hcPublic-gatewayAddress" {
-  value = [google_compute_subnetwork.hcPublic.*.gateway_address]
+  value = google_compute_subnetwork.hcPublic[*].gateway_address
 }
 
 ## firewall
