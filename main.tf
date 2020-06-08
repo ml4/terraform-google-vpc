@@ -12,7 +12,7 @@ resource "google_compute_network" "hcVpc" {
 #
 resource "google_compute_subnetwork" "hcPriv" {
   name                     = "${var.prefix}-bob"
-  ip_cidr_range            = 10.0.123.0/24
+  ip_cidr_range            = "10.0.123.0/24"
   network                  = google_compute_network.hcVpc.self_link
   private_ip_google_access = true
 }
