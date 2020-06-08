@@ -8,75 +8,75 @@
 ## h = resource subparameter if applicable
 #
 output "vpc-gcn-hcVpc-name" {
-  value = google-compute-network.hcVpc.name
+  value = google_compute_network.hcVpc.name
 }
 
 output "vpc-gcn-hcVpc-id" {
-  value = google-compute-network.hcVpc.id
+  value = google_compute_network.hcVpc.id
 }
 
 output "vpc-gcn-hcVpc-description" {
-  value = google-compute-network.hcVpc.description
+  value = google_compute_network.hcVpc.description
 }
 
-output "vpc-gcn-hcVpc-routing-mode" {
-  value = google-compute-network.hcVpc.routing-mode
+output "vpc-gcn-hcVpc-routingMode" {
+  value = google_compute_network.hcVpc.routing_mode
 }
 
-output "vpc-gcn-hcVpc-gateway-ipv4" {
-  value = google-compute-network.hcVpc.gateway-ipv4
+output "vpc-gcn-hcVpc-gatewayIpv4" {
+  value = google_compute_network.hcVpc.gateway_ipv4
 }
 
 ## private subnet
 #
-output "vpc-gcsn-hcPrivate-ip_cidr_range" {
-  value = google-compute-subnetwork.hcPrivate.ip_cidr_range
+output "vpc-gcsn-hcPrivate-ipCidrRange" {
+  value = google_compute_subnetwork.hcPrivate.ip_cidr_range
 }
 
 output "vpc-gcsn-hcPrivate-name" {
-  value = google-compute-subnetwork.hcPrivate.name
+  value = google_compute_subnetwork.hcPrivate.name
 }
 
 output "vpc-gcsn-hcPrivate-region" {
-  value = google-compute-subnetwork.hcPrivate.region
+  value = google_compute_subnetwork.hcPrivate.region
 }
 
-output "vpc-gcsn-hcPrivate-gateway_address" {
-  value = google-compute-subnetwork.hcPrivate.gateway_address
+output "vpc-gcsn-hcPrivate-gatewayAddress" {
+  value = google_compute_subnetwork.hcPrivate.gateway_address
 }
 
 ## public subnet
 #
-output "vpc-gcsn-hcPublic-ip_cidr_range" {
-  value = google-compute-subnetwork.hcPublic.ip_cidr_range
+output "vpc-gcsn-hcPublic-ipCidrRange" {
+  value = google_compute_subnetwork.hcPublic.ip_cidr_range
 }
 
 output "vpc-gcsn-hcPublic-name" {
-  value = google-compute-subnetwork.hcPublic.name
+  value = google_compute_subnetwork.hcPublic.name
 }
 
 output "vpc-gcsn-hcPublic-region" {
-  value = google-compute-subnetwork.hcPublic.region
+  value = google_compute_subnetwork.hcPublic.region
 }
 
-output "vpc-gcsn-hcPublic-gateway_address" {
-  value = google-compute-subnetwork.hcPublic.gateway_address
+output "vpc-gcsn-hcPublic-gatewayAddress" {
+  value = google_compute_subnetwork.hcPublic.gateway_address
 }
 
 ## firewall
 #
 output "vpc-gcf-hcFW-name" {
-  value = google-compute-firewall.hcFW.name
+  value = google_compute_firewall.hcFW.name
 }
 
 output "vpc-gcf-hcFW-id" {
-  value = google-compute-firewall.hcFW.id
+  value = google_compute_firewall.hcFW.id
 }
 
 output "vpc-gcf-hcFW-network" {
-  value = google-compute-firewall.hcFW.network
+  value = google_compute_firewall.hcFW.network
 }
 
 output "vpc-gcf-hcFW-description" {
-  value = google-compute-firewall.hcFW.description
+  value = google_compute_firewall.hcFW.description
 }
