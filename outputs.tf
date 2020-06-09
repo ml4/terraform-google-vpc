@@ -30,7 +30,7 @@ output "vpc-gcn-hcVpc-gatewayIpv4" {
 ## private subnet
 #
 output "vpc-gcsn-hcPrivate-ipCidrRange" {
-  value = google_compute_subnetwork.hcPrivate[0].ip_cidr_range
+  value = for cidr in google_compute_subnetwork.hcPrivate:  cidr.ip_cidr_range
 }
 
 # output "vpc-gcsn-hcPrivate-name" {
