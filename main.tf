@@ -33,9 +33,11 @@ resource "google_compute_firewall" "hcFW" {
   name    = "${var.prefix}-${google_compute_network.hcVpc.name}-fw"
   network = google_compute_network.hcVpc.self_link
 
+  ## include port 80 for the certbot acme webserver to automatically get certs
+  #
   allow {
     protocol = "tcp"
-    ports    = ["22", "443", "8800"]
+    ports    = ["22", "80", "443", "8800"]
   }
 
   source_ranges = ["0.0.0.0/0"]
