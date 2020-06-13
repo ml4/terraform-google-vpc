@@ -7,6 +7,10 @@
 ## g = resource parameter to output
 ## h = resource subparameter if applicable
 #
+output "vpc-gcn-hcVpc-self_link" {
+  value = google_compute_network.hcVpc.self_link
+}
+
 output "vpc-gcn-hcVpc-name" {
   value = google_compute_network.hcVpc.name
 }
