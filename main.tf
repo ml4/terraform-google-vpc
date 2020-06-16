@@ -72,7 +72,7 @@ resource "google_compute_firewall" "hcFW" {
 resource "google_compute_address" "hcPrimaryNatIp" {
   for_each = var.primaryPublicSubnetCidrs
 
-  name    = "${var.prefix}-primaryNatIp-${each.value.name}"
+  name    = "${var.prefix}-primary-${each.value.name}"
   project = var.googleProject
   region  = var.googlePrimaryRegion
 }
@@ -80,7 +80,7 @@ resource "google_compute_address" "hcPrimaryNatIp" {
 resource "google_compute_address" "hcSecondaryNatIp" {
   for_each = var.secondaryPublicSubnetCidrs
 
-  name    = "${var.prefix}-secondaryNatIp-${each.value.name}"
+  name    = "${var.prefix}-secondary-${each.value.name}"
   project = var.googleProject
   region  = var.googleSecondaryRegion
 }
