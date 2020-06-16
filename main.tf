@@ -69,39 +69,21 @@ resource "google_compute_firewall" "hcFW" {
 
 ## gateways/ips
 #
-resource "google_compute_address" "hcPrimaryNatIp" {
-  for_each = var.primaryPublicSubnetCidrs
+resource "google_compute_address" "hcNatIp" {
+  for_each = concat(var.primaryPublicSubnetCidrs, var.secondaryPublicSubnetCidrs)
 
-  name    = "${var.prefix}-primary-${each.value.name}"
+  name    = "${var.prefix}-${each.value.name}"
   project = var.googleProject
   region  = var.googlePrimaryRegion
 }
 
-resource "google_compute_address" "hcSecondaryNatIp" {
-  for_each = var.secondaryPublicSubnetCidrs
-
-  name    = "${var.prefix}-secondary-${each.value.name}"
-  project = var.googleProject
-  region  = var.googleSecondaryRegion
-}
-
-resource "google_compute_router_nat" "hcPrimaryNgw" {
-  name                               = "${var.prefix}-primary-ngw"
+resource "google_compute_router_nat" "hcNgw" {
+  name                               = "${var.prefix}-ngw"
   router                             = google_compute_router.hcRtr.name
   nat_ip_allocate_option             = "AUTO_ONLY"
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
   depends_on = [
-    google_compute_address.hcPrimaryNatIp
-  ]
-}
-
-resource "google_compute_router_nat" "hcSecondaryNgw" {
-  name                               = "${var.prefix}-secondary-ngw"
-  router                             = google_compute_router.hcRtr.name
-  nat_ip_allocate_option             = "AUTO_ONLY"
-  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
-  depends_on = [
-    google_compute_address.hcSecondaryNatIp
+    google_compute_address.hcNatIp
   ]
 }
 
