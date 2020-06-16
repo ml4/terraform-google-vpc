@@ -28,7 +28,7 @@ resource "google_compute_subnetwork" "hcPrimaryPrivate" {
 }
 
 resource "google_compute_subnetwork" "hcSecondaryPublic" {
-  for_each = var.SecondaryPublicSubnetCidrs
+  for_each = var.secondaryPublicSubnetCidrs
 
   name          = "${var.prefix}-${each.value.name}"
   ip_cidr_range = each.value.cidr
@@ -36,7 +36,7 @@ resource "google_compute_subnetwork" "hcSecondaryPublic" {
 }
 
 resource "google_compute_subnetwork" "hcSecondaryPrivate" {
-  for_each = var.SecondaryPrivateSubnetCidrs
+  for_each = var.secondaryPrivateSubnetCidrs
 
   name                     = "${var.prefix}-${each.value.name}"
   ip_cidr_range            = each.value.cidr
