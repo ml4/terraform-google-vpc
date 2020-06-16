@@ -70,7 +70,7 @@ resource "google_compute_firewall" "hcFW" {
 ## gateways/ips
 #
 resource "google_compute_address" "hcNatIp" {
-  for_each = concat(var.primaryPublicSubnetCidrs, var.secondaryPublicSubnetCidrs)
+  for_each = merge(var.primaryPublicSubnetCidrs, var.secondaryPublicSubnetCidrs)
 
   name    = "${var.prefix}-${each.value.name}"
   project = var.googleProject
