@@ -31,40 +31,76 @@ output "vpc-gcn-hcVpc-gatewayIpv4" {
   value = google_compute_network.hcVpc.gateway_ipv4
 }
 
-## private subnet
+## primary public subnet
 #
-output "vpc-gcsn-hcPrivate-ipCidrRange" {
-  value = values(google_compute_subnetwork.hcPrivate)[*].ip_cidr_range
+output "vpc-gcsn-hcPrimaryPublic-ipCidrRange" {
+  value = values(google_compute_subnetwork.hcPrimaryPublic)[*].ip_cidr_range
 }
 
-output "vpc-gcsn-hcPrivate-name" {
-  value = values(google_compute_subnetwork.hcPrivate)[*].name
+output "vpc-gcsn-hcPrimaryPublic-name" {
+  value = values(google_compute_subnetwork.hcPrimaryPublic)[*].name
 }
 
-output "vpc-gcsn-hcPrivate-region" {
-  value = values(google_compute_subnetwork.hcPrivate)[*].region
+output "vpc-gcsn-hcPrimaryPublic-region" {
+  value = values(google_compute_subnetwork.hcPrimaryPublic)[*].region
 }
 
-output "vpc-gcsn-hcPrivate-gatewayAddress" {
-  value = values(google_compute_subnetwork.hcPrivate)[*].gateway_address
+output "vpc-gcsn-hcPrimaryPublic-gatewayAddress" {
+  value = values(google_compute_subnetwork.hcPrimaryPublic)[*].gateway_address
 }
 
-## public subnet
+## secondary public subnet
 #
-output "vpc-gcsn-hcPublic-ipCidrRange" {
-  value = values(google_compute_subnetwork.hcPublic)[*].ip_cidr_range
+output "vpc-gcsn-hcSecondaryPublic-ipCidrRange" {
+  value = values(google_compute_subnetwork.hcSecondaryPublic)[*].ip_cidr_range
 }
 
-output "vpc-gcsn-hcPublic-name" {
-  value = values(google_compute_subnetwork.hcPublic)[*].name
+output "vpc-gcsn-hcSecondaryPublic-name" {
+  value = values(google_compute_subnetwork.hcSecondaryPublic)[*].name
 }
 
-output "vpc-gcsn-hcPublic-region" {
-  value = values(google_compute_subnetwork.hcPublic)[*].region
+output "vpc-gcsn-hcSecondaryPublic-region" {
+  value = values(google_compute_subnetwork.hcSecondaryPublic)[*].region
 }
 
-output "vpc-gcsn-hcPublic-gatewayAddress" {
-  value = values(google_compute_subnetwork.hcPublic)[*].gateway_address
+output "vpc-gcsn-hcSecondaryPublic-gatewayAddress" {
+  value = values(google_compute_subnetwork.hcSecondaryPublic)[*].gateway_address
+}
+
+## primary private subnet
+#
+output "vpc-gcsn-hcPrimaryPrivate-ipCidrRange" {
+  value = values(google_compute_subnetwork.hcPrimaryPrivate)[*].ip_cidr_range
+}
+
+output "vpc-gcsn-hcPrimaryPrivate-name" {
+  value = values(google_compute_subnetwork.hcPrimaryPrivate)[*].name
+}
+
+output "vpc-gcsn-hcPrimaryPrivate-region" {
+  value = values(google_compute_subnetwork.hcPrimaryPrivate)[*].region
+}
+
+output "vpc-gcsn-hcPrimaryPrivate-gatewayAddress" {
+  value = values(google_compute_subnetwork.hcPrimaryPrivate)[*].gateway_address
+}
+
+## secondary private subnet
+#
+output "vpc-gcsn-hcSecondaryPrivate-ipCidrRange" {
+  value = values(google_compute_subnetwork.hcSecondaryPrivate)[*].ip_cidr_range
+}
+
+output "vpc-gcsn-hcSecondaryPrivate-name" {
+  value = values(google_compute_subnetwork.hcSecondaryPrivate)[*].name
+}
+
+output "vpc-gcsn-hcSecondaryPrivate-region" {
+  value = values(google_compute_subnetwork.hcSecondaryPrivate)[*].region
+}
+
+output "vpc-gcsn-hcSecondaryPrivate-gatewayAddress" {
+  value = values(google_compute_subnetwork.hcSecondaryPrivate)[*].gateway_address
 }
 
 ## firewall

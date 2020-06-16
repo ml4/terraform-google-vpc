@@ -12,23 +12,47 @@ variable "googlePrimaryRegion" {
   type = string
 }
 
-variable "publicSubnetCidrs" {
-  type = map(object(
-    {
-      name = string
-      cidr = string
-    }
-  ))
-  description = "GCP public subnets"
+variable "googleSecondaryRegion" {
+  type = string
 }
 
-variable "privateSubnetCidrs" {
+variable "primaryPublicSubnetCidrs" {
   type = map(object(
     {
       name = string
       cidr = string
     }
   ))
-  description = "GCP private subnets"
+  description = "GCP primary public subnets"
+}
+
+variable "primaryPrivateSubnetCidrs" {
+  type = map(object(
+    {
+      name = string
+      cidr = string
+    }
+  ))
+  description = "GCP primary private subnets"
+}
+
+variable "secondaryPublicSubnetCidrs" {
+  type = map(object(
+    {
+      name = string
+      cidr = string
+    }
+  ))
+  description = "GCP secondary public subnets"
+}
+
+variable "secondaryPrivateSubnetCidrs" {
+  type = map(object(
+    {
+      name = string
+      cidr = string
+    }
+  ))
+  description = "GCP secondary private subnets"
 }
 
