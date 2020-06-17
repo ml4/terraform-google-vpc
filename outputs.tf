@@ -124,9 +124,9 @@ output "vpc-gcf-hcFW-description" {
 ## routing
 #
 output "vpc-gca-hcPrimaryNatIp-address" {
-  value = values(google_compute_address.hcPrimaryNatIp[*]).address
+  value = values(google_compute_address.hcPrimaryNatIp)[*].address
 }
 
 output "vpc-gca-hcSecondaryNatIp-address" {
-  value = values(google_compute_address.hcSecondaryNatIp[*]).address
+  value = values(google_compute_address.hcSecondaryNatIp)[*].address
 }
