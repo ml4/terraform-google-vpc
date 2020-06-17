@@ -116,6 +116,7 @@ resource "google_compute_address" "hcSecondaryNatIp" {
 resource "google_compute_router_nat" "hcSecondaryNgw" {
   name                               = "${var.prefix}-secondary-ngw"
   router                             = google_compute_router.hcSecondaryRtr.name
+  region                             = var.googleSecondaryRegion
   nat_ip_allocate_option             = "AUTO_ONLY"
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
   depends_on = [
