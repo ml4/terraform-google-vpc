@@ -13,7 +13,7 @@ resource "google_compute_network" "hcVpc" {
 resource "google_compute_subnetwork" "hcPrimaryPublic" {
   for_each = var.primaryPublicSubnetCidrs
 
-  name          = "${var.prefix}-primarypub-${each.value.name}"
+  name          = "${var.prefix}-${each.value.name}"
   ip_cidr_range = each.value.cidr
   network       = google_compute_network.hcVpc.self_link
   region        = var.googlePrimaryRegion
@@ -22,7 +22,7 @@ resource "google_compute_subnetwork" "hcPrimaryPublic" {
 resource "google_compute_subnetwork" "hcPrimaryPrivate" {
   for_each = var.primaryPrivateSubnetCidrs
 
-  name                     = "${var.prefix}-primarypriv-${each.value.name}"
+  name                     = "${var.prefix}-${each.value.name}"
   ip_cidr_range            = each.value.cidr
   network                  = google_compute_network.hcVpc.self_link
   private_ip_google_access = true
@@ -32,7 +32,7 @@ resource "google_compute_subnetwork" "hcPrimaryPrivate" {
 resource "google_compute_subnetwork" "hcSecondaryPublic" {
   for_each = var.secondaryPublicSubnetCidrs
 
-  name          = "${var.prefix}-secondarypub-${each.value.name}"
+  name          = "${var.prefix}-${each.value.name}"
   ip_cidr_range = each.value.cidr
   network       = google_compute_network.hcVpc.self_link
   region        = var.googleSecondaryRegion
@@ -41,7 +41,7 @@ resource "google_compute_subnetwork" "hcSecondaryPublic" {
 resource "google_compute_subnetwork" "hcSecondaryPrivate" {
   for_each = var.secondaryPrivateSubnetCidrs
 
-  name                     = "${var.prefix}-secondarypriv-${each.value.name}"
+  name                     = "${var.prefix}-${each.value.name}"
   ip_cidr_range            = each.value.cidr
   network                  = google_compute_network.hcVpc.self_link
   private_ip_google_access = true
@@ -73,53 +73,53 @@ resource "google_compute_firewall" "hcFW" {
 
 ## primary routing
 #
-resource "google_compute_router" "hcPrimaryRtr" {
-  name    = "${var.prefix}-primary-rtr"
-  network = google_compute_network.hcVpc.self_link
-  region  = var.googlePrimaryRegion
-}
+# resource "google_compute_router" "hcPrimaryRtr" {
+#   name    = "${var.prefix}-primary-rtr"
+#   network = google_compute_network.hcVpc.self_link
+#   region  = var.googlePrimaryRegion
+# }
 
-resource "google_compute_address" "hcPrimaryNatIp" {
-  for_each = var.primaryPublicSubnetCidrs
+# resource "google_compute_address" "hcPrimaryNatIp" {
+#   for_each = var.primaryPublicSubnetCidrs
 
-  name    = "${var.prefix}-primary-${each.value.name}"
-  project = var.googleProject
-  region  = var.googlePrimaryRegion
-}
+#   name    = "${var.prefix}-primary-${each.value.name}"
+#   project = var.googleProject
+#   region  = var.googlePrimaryRegion
+# }
 
-resource "google_compute_router_nat" "hcPrimaryNgw" {
-  name                               = "${var.prefix}-primary-ngw"
-  router                             = google_compute_router.hcPrimaryRtr.name
-  nat_ip_allocate_option             = "AUTO_ONLY"
-  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
-  depends_on = [
-    google_compute_address.hcPrimaryNatIp
-  ]
-}
+# resource "google_compute_router_nat" "hcPrimaryNgw" {
+#   name                               = "${var.prefix}-primary-ngw"
+#   router                             = google_compute_router.hcPrimaryRtr.name
+#   nat_ip_allocate_option             = "AUTO_ONLY"
+#   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+#   depends_on = [
+#     google_compute_address.hcPrimaryNatIp
+#   ]
+# }
 
-## secondary routing
-#
-resource "google_compute_router" "hcSecondaryRtr" {
-  name    = "${var.prefix}-secondary-rtr"
-  network = google_compute_network.hcVpc.self_link
-  region  = var.googleSecondaryRegion
-}
+# ## secondary routing
+# #
+# resource "google_compute_router" "hcSecondaryRtr" {
+#   name    = "${var.prefix}-secondary-rtr"
+#   network = google_compute_network.hcVpc.self_link
+#   region  = var.googleSecondaryRegion
+# }
 
-resource "google_compute_address" "hcSecondaryNatIp" {
-  for_each = var.secondaryPublicSubnetCidrs
+# resource "google_compute_address" "hcSecondaryNatIp" {
+#   for_each = var.secondaryPublicSubnetCidrs
 
-  name    = "${var.prefix}-secondary-${each.value.name}"
-  project = var.googleProject
-  region  = var.googleSecondaryRegion
-}
+#   name    = "${var.prefix}-secondary-${each.value.name}"
+#   project = var.googleProject
+#   region  = var.googleSecondaryRegion
+# }
 
-resource "google_compute_router_nat" "hcSecondaryNgw" {
-  name                               = "${var.prefix}-secondary-ngw"
-  router                             = google_compute_router.hcSecondaryRtr.name
-  nat_ip_allocate_option             = "AUTO_ONLY"
-  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
-  depends_on = [
-    google_compute_address.hcSecondaryNatIp
-  ]
-}
+# resource "google_compute_router_nat" "hcSecondaryNgw" {
+#   name                               = "${var.prefix}-secondary-ngw"
+#   router                             = google_compute_router.hcSecondaryRtr.name
+#   nat_ip_allocate_option             = "AUTO_ONLY"
+#   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+#   depends_on = [
+#     google_compute_address.hcSecondaryNatIp
+#   ]
+# }
 
