@@ -120,3 +120,13 @@ output "vpc-gcf-hcFW-network" {
 output "vpc-gcf-hcFW-description" {
   value = google_compute_firewall.hcFW.description
 }
+
+## routing
+#
+output "vpc-gca-hcPrimaryNatIp-address" {
+  value = google_compute_address.hcPrimaryNatIp[*].address
+}
+
+output "vpc-gca-hcSecondaryNatIp-address" {
+  value = google_compute_address.hcSecondaryNatIp[*].address
+}

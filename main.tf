@@ -4,7 +4,7 @@
 resource "google_compute_network" "hcVpc" {
   name                            = "${var.prefix}-vpc"
   auto_create_subnetworks         = false
-  routing_mode                    = "REGIONAL"
+  routing_mode                    = "GLOBAL"
   delete_default_routes_on_create = false
 }
 
@@ -33,6 +33,7 @@ resource "google_compute_subnetwork" "hcSecondaryPublic" {
   name          = "${var.prefix}-${each.value.name}"
   ip_cidr_range = each.value.cidr
   network       = google_compute_network.hcVpc.self_link
+  region        = var.googlePrimaryRegion
 }
 
 resource "google_compute_subnetwork" "hcSecondaryPrivate" {
@@ -42,6 +43,7 @@ resource "google_compute_subnetwork" "hcSecondaryPrivate" {
   ip_cidr_range            = each.value.cidr
   network                  = google_compute_network.hcVpc.self_link
   private_ip_google_access = true
+  region        = var.googleSecondaryRegion
 }
 
 ## FWs
@@ -67,30 +69,55 @@ resource "google_compute_firewall" "hcFW" {
   source_ranges = ["0.0.0.0/0"]
 }
 
-## gateways/ips
+## primary routing
 #
-resource "google_compute_address" "hcNatIp" {
-  for_each = merge(var.primaryPublicSubnetCidrs, var.secondaryPublicSubnetCidrs)
+resource "google_compute_router" "hcPrimaryRtr" {
+  name    = "${var.prefix}-primary-nrtr"
+  network = google_compute_network.hcVpc.self_link
+  region = var.googlePrimaryRegion
+}
 
-  name    = "${var.prefix}-${each.value.name}"
+resource "google_compute_address" "hcPrimaryNatIp" {
+  for_each = var.primaryPublicSubnetCidrs
+
+  name    = "${var.prefix}-primary-${each.value.name}"
   project = var.googleProject
   region  = var.googlePrimaryRegion
 }
 
-resource "google_compute_router_nat" "hcNgw" {
-  name                               = "${var.prefix}-ngw"
-  router                             = google_compute_router.hcRtr.name
+resource "google_compute_router_nat" "hcPrimaryNgw" {
+  name                               = "${var.prefix}-primary-ngw"
+  router                             = google_compute_router.hcPrimaryRtr.name
   nat_ip_allocate_option             = "AUTO_ONLY"
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
   depends_on = [
-    google_compute_address.hcNatIp
+    google_compute_address.hcPrimaryNatIp
   ]
 }
 
-## routes
+## secondary routing
 #
-resource "google_compute_router" "hcRtr" {
-  name    = "${var.prefix}-nrtr"
+resource "google_compute_router" "hcSecondaryRtr" {
+  name    = "${var.prefix}-secondary-nrtr"
   network = google_compute_network.hcVpc.self_link
+  region = var.googleSecondaryRegion
+}
+
+resource "google_compute_address" "hcSecondaryNatIp" {
+  for_each = var.secondaryPublicSubnetCidrs
+
+  name    = "${var.prefix}-secondary-${each.value.name}"
+  project = var.googleProject
+  region  = var.googleSecondaryRegion
+}
+
+resource "google_compute_router_nat" "hcSecondaryNgw" {
+  name                               = "${var.prefix}-secondary-ngw"
+  router                             = google_compute_router.hcSecondaryRtr.name
+  nat_ip_allocate_option             = "AUTO_ONLY"
+  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+  depends_on = [
+    google_compute_address.hcSecondaryNgw
+  ]
 }
 
