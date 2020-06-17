@@ -97,29 +97,29 @@ resource "google_compute_firewall" "hcFW" {
 #   ]
 # }
 
-# ## secondary routing
-# #
-# resource "google_compute_router" "hcSecondaryRtr" {
-#   name    = "${var.prefix}-secondary-rtr"
-#   network = google_compute_network.hcVpc.self_link
-#   region  = var.googleSecondaryRegion
-# }
+## secondary routing
+#
+resource "google_compute_router" "hcSecondaryRtr" {
+  name    = "${var.prefix}-secondary-rtr"
+  network = google_compute_network.hcVpc.self_link
+  region  = var.googleSecondaryRegion
+}
 
-# resource "google_compute_address" "hcSecondaryNatIp" {
-#   for_each = var.secondaryPublicSubnetCidrs
+resource "google_compute_address" "hcSecondaryNatIp" {
+  for_each = var.secondaryPublicSubnetCidrs
 
-#   name    = "${var.prefix}-secondary-${each.value.name}"
-#   project = var.googleProject
-#   region  = var.googleSecondaryRegion
-# }
+  name    = "${var.prefix}-secondary-${each.value.name}"
+  project = var.googleProject
+  region  = var.googleSecondaryRegion
+}
 
-# resource "google_compute_router_nat" "hcSecondaryNgw" {
-#   name                               = "${var.prefix}-secondary-ngw"
-#   router                             = google_compute_router.hcSecondaryRtr.name
-#   nat_ip_allocate_option             = "AUTO_ONLY"
-#   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
-#   depends_on = [
-#     google_compute_address.hcSecondaryNatIp
-#   ]
-# }
+resource "google_compute_router_nat" "hcSecondaryNgw" {
+  name                               = "${var.prefix}-secondary-ngw"
+  router                             = google_compute_router.hcSecondaryRtr.name
+  nat_ip_allocate_option             = "AUTO_ONLY"
+  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+  depends_on = [
+    google_compute_address.hcSecondaryNatIp
+  ]
+}
 
