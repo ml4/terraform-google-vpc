@@ -73,29 +73,30 @@ resource "google_compute_firewall" "hcFW" {
 
 ## primary routing
 #
-# resource "google_compute_router" "hcPrimaryRtr" {
-#   name    = "${var.prefix}-primary-rtr"
-#   network = google_compute_network.hcVpc.self_link
-#   region  = var.googlePrimaryRegion
-# }
+resource "google_compute_router" "hcPrimaryRtr" {
+  name    = "${var.prefix}-primary-rtr"
+  network = google_compute_network.hcVpc.self_link
+  region  = var.googlePrimaryRegion
+}
 
-# resource "google_compute_address" "hcPrimaryNatIp" {
-#   for_each = var.primaryPublicSubnetCidrs
+resource "google_compute_address" "hcPrimaryNatIp" {
+  for_each = var.primaryPublicSubnetCidrs
 
-#   name    = "${var.prefix}-primary-${each.value.name}"
-#   project = var.googleProject
-#   region  = var.googlePrimaryRegion
-# }
+  name    = "${var.prefix}-primary-${each.value.name}"
+  project = var.googleProject
+  region  = var.googlePrimaryRegion
+}
 
-# resource "google_compute_router_nat" "hcPrimaryNgw" {
-#   name                               = "${var.prefix}-primary-ngw"
-#   router                             = google_compute_router.hcPrimaryRtr.name
-#   nat_ip_allocate_option             = "AUTO_ONLY"
-#   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
-#   depends_on = [
-#     google_compute_address.hcPrimaryNatIp
-#   ]
-# }
+resource "google_compute_router_nat" "hcPrimaryNgw" {
+  name                               = "${var.prefix}-primary-ngw"
+  router                             = google_compute_router.hcPrimaryRtr.name
+  region                             = var.googlePrimaryRegion
+  nat_ip_allocate_option             = "AUTO_ONLY"
+  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+  depends_on = [
+    google_compute_address.hcPrimaryNatIp
+  ]
+}
 
 ## secondary routing
 #
