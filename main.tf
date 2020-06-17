@@ -13,33 +13,35 @@ resource "google_compute_network" "hcVpc" {
 resource "google_compute_subnetwork" "hcPrimaryPublic" {
   for_each = var.primaryPublicSubnetCidrs
 
-  name          = "${var.prefix}-${each.value.name}"
-  ip_cidr_range = each.value.cidr
-  network       = google_compute_network.hcVpc.self_link
-}
-
-resource "google_compute_subnetwork" "hcPrimaryPrivate" {
-  for_each = var.primaryPrivateSubnetCidrs
-
-  name                     = "${var.prefix}-${each.value.name}"
-  ip_cidr_range            = each.value.cidr
-  network                  = google_compute_network.hcVpc.self_link
-  private_ip_google_access = true
-}
-
-resource "google_compute_subnetwork" "hcSecondaryPublic" {
-  for_each = var.secondaryPublicSubnetCidrs
-
-  name          = "${var.prefix}-${each.value.name}"
+  name          = "${var.prefix}-primarypub-${each.value.name}"
   ip_cidr_range = each.value.cidr
   network       = google_compute_network.hcVpc.self_link
   region        = var.googlePrimaryRegion
 }
 
+resource "google_compute_subnetwork" "hcPrimaryPrivate" {
+  for_each = var.primaryPrivateSubnetCidrs
+
+  name                     = "${var.prefix}-primarypriv-${each.value.name}"
+  ip_cidr_range            = each.value.cidr
+  network                  = google_compute_network.hcVpc.self_link
+  private_ip_google_access = true
+  region                   = var.googlePrimaryRegion
+}
+
+resource "google_compute_subnetwork" "hcSecondaryPublic" {
+  for_each = var.secondaryPublicSubnetCidrs
+
+  name          = "${var.prefix}-secondarypub-${each.value.name}"
+  ip_cidr_range = each.value.cidr
+  network       = google_compute_network.hcVpc.self_link
+  region        = var.googleSecondaryRegion
+}
+
 resource "google_compute_subnetwork" "hcSecondaryPrivate" {
   for_each = var.secondaryPrivateSubnetCidrs
 
-  name                     = "${var.prefix}-${each.value.name}"
+  name                     = "${var.prefix}-secondarypriv-${each.value.name}"
   ip_cidr_range            = each.value.cidr
   network                  = google_compute_network.hcVpc.self_link
   private_ip_google_access = true
@@ -72,7 +74,7 @@ resource "google_compute_firewall" "hcFW" {
 ## primary routing
 #
 resource "google_compute_router" "hcPrimaryRtr" {
-  name    = "${var.prefix}-primary-nrtr"
+  name    = "${var.prefix}-primary-rtr"
   network = google_compute_network.hcVpc.self_link
   region  = var.googlePrimaryRegion
 }
@@ -98,7 +100,7 @@ resource "google_compute_router_nat" "hcPrimaryNgw" {
 ## secondary routing
 #
 resource "google_compute_router" "hcSecondaryRtr" {
-  name    = "${var.prefix}-secondary-nrtr"
+  name    = "${var.prefix}-secondary-rtr"
   network = google_compute_network.hcVpc.self_link
   region  = var.googleSecondaryRegion
 }
