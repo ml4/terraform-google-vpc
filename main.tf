@@ -19,7 +19,7 @@ resource "google_compute_subnetwork" "primaryPublic" {
   region        = var.googlePrimaryRegion
 }
 
-resource "google_compute_subnetwork" "hprimaryPrivate" {
+resource "google_compute_subnetwork" "primaryPrivate" {
   for_each = var.primaryPrivateSubnetCidrs
 
   name                     = "${var.prefix}-${each.value.name}"
