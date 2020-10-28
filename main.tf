@@ -1,7 +1,7 @@
 ## GCP VPC
-## Credence to Alex Basista & Tom Straub
+## Credence to Alex Basista & Tom Straub
 #
-resource "google_compute_network" "hcVpc" {
+resource "google_compute_network" "main" {
   name                            = "${var.prefix}-vpc"
   auto_create_subnetworks         = false
   routing_mode                    = "GLOBAL"
@@ -10,49 +10,49 @@ resource "google_compute_network" "hcVpc" {
 
 ## subnets
 #
-resource "google_compute_subnetwork" "hcPrimaryPublic" {
+resource "google_compute_subnetwork" "primaryPublic" {
   for_each = var.primaryPublicSubnetCidrs
 
   name          = "${var.prefix}-${each.value.name}"
   ip_cidr_range = each.value.cidr
-  network       = google_compute_network.hcVpc.self_link
+  network       = google_compute_network.main.self_link
   region        = var.googlePrimaryRegion
 }
 
-resource "google_compute_subnetwork" "hcPrimaryPrivate" {
+resource "google_compute_subnetwork" "hprimaryPrivate" {
   for_each = var.primaryPrivateSubnetCidrs
 
   name                     = "${var.prefix}-${each.value.name}"
   ip_cidr_range            = each.value.cidr
-  network                  = google_compute_network.hcVpc.self_link
+  network                  = google_compute_network.main.self_link
   private_ip_google_access = true
   region                   = var.googlePrimaryRegion
 }
 
-resource "google_compute_subnetwork" "hcSecondaryPublic" {
+resource "google_compute_subnetwork" "secondaryPublic" {
   for_each = var.secondaryPublicSubnetCidrs
 
   name          = "${var.prefix}-${each.value.name}"
   ip_cidr_range = each.value.cidr
-  network       = google_compute_network.hcVpc.self_link
+  network       = google_compute_network.main.self_link
   region        = var.googleSecondaryRegion
 }
 
-resource "google_compute_subnetwork" "hcSecondaryPrivate" {
+resource "google_compute_subnetwork" "secondaryPrivate" {
   for_each = var.secondaryPrivateSubnetCidrs
 
   name                     = "${var.prefix}-${each.value.name}"
   ip_cidr_range            = each.value.cidr
-  network                  = google_compute_network.hcVpc.self_link
+  network                  = google_compute_network.main.self_link
   private_ip_google_access = true
   region                   = var.googleSecondaryRegion
 }
 
 ## FWs
 #
-resource "google_compute_firewall" "hcFW" {
-  name    = "${var.prefix}-${google_compute_network.hcVpc.name}-fw"
-  network = google_compute_network.hcVpc.self_link
+resource "google_compute_firewall" "main" {
+  name    = "${var.prefix}-${google_compute_network.main.name}-fw"
+  network = google_compute_network.main.self_link
 
   ## include port 80 for the certbot acme webserver to automatically get certs
   ## also use port 80 for the TFE ES mode fw-allow-health-check rule: https://cloud.google.com/load-balancing/docs/https/ext-http-lb-simple#firewall (130.211.0.0/22 and 35.191.0.0/16 implicit in the 0.0.0.0/0 below)
@@ -73,13 +73,13 @@ resource "google_compute_firewall" "hcFW" {
 
 ## primary routing
 #
-resource "google_compute_router" "hcPrimaryRtr" {
+resource "google_compute_router" "primaryRtr" {
   name    = "${var.prefix}-primary-rtr"
-  network = google_compute_network.hcVpc.self_link
+  network = google_compute_network.main.self_link
   region  = var.googlePrimaryRegion
 }
 
-resource "google_compute_address" "hcPrimaryNatIp" {
+resource "google_compute_address" "primaryNatIp" {
   for_each = var.primaryPublicSubnetCidrs
 
   name    = "${var.prefix}-primary-${each.value.name}"
@@ -87,26 +87,26 @@ resource "google_compute_address" "hcPrimaryNatIp" {
   region  = var.googlePrimaryRegion
 }
 
-resource "google_compute_router_nat" "hcPrimaryNgw" {
+resource "google_compute_router_nat" "primaryNgw" {
   name                               = "${var.prefix}-primary-ngw"
-  router                             = google_compute_router.hcPrimaryRtr.name
+  router                             = google_compute_router.primaryRtr.name
   region                             = var.googlePrimaryRegion
   nat_ip_allocate_option             = "AUTO_ONLY"
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
   depends_on = [
-    google_compute_address.hcPrimaryNatIp
+    google_compute_address.primaryNatIp
   ]
 }
 
 ## secondary routing
 #
-resource "google_compute_router" "hcSecondaryRtr" {
+resource "google_compute_router" "secondaryRtr" {
   name    = "${var.prefix}-secondary-rtr"
-  network = google_compute_network.hcVpc.self_link
+  network = google_compute_network.main.self_link
   region  = var.googleSecondaryRegion
 }
 
-resource "google_compute_address" "hcSecondaryNatIp" {
+resource "google_compute_address" "secondaryNatIp" {
   for_each = var.secondaryPublicSubnetCidrs
 
   name    = "${var.prefix}-secondary-${each.value.name}"
@@ -116,12 +116,12 @@ resource "google_compute_address" "hcSecondaryNatIp" {
 
 resource "google_compute_router_nat" "hcSecondaryNgw" {
   name                               = "${var.prefix}-secondary-ngw"
-  router                             = google_compute_router.hcSecondaryRtr.name
+  router                             = google_compute_router.secondaryRtr.name
   region                             = var.googleSecondaryRegion
   nat_ip_allocate_option             = "AUTO_ONLY"
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
   depends_on = [
-    google_compute_address.hcSecondaryNatIp
+    google_compute_address.secondaryNatIp
   ]
 }
 
