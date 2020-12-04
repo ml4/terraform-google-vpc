@@ -8,7 +8,7 @@ Terraform GCP network module
 
 ## Required Inputs
 | Name | Type | Description |
-| - | -- | --- | - |
+| - | -- | --- |
 | prefix | string | main prefix in front of most infra for multi-user accounts |
 | googleProject | string | Main Google project |
 | googlePrimaryRegion | string | Google primary target region |
