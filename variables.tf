@@ -5,22 +5,22 @@ variable "prefix" {
   description = "main prefix in front of most infra for multi-user accounts"
 }
 
-variable "googleProject" {
+variable "google_project" {
   type        = string
   description = "Main Google project"
 }
 
-variable "googlePrimaryRegion" {
+variable "google_primary_region" {
   type        = string
   description = "Google primary target region"
 }
 
-variable "googleSecondaryRegion" {
+variable "google_secondary_region" {
   type        = string
   description = "Google secondary target region"
 }
 
-variable "primaryPublicSubnetCidrs" {
+variable "primary_public_subnet_cidrs" {
   type = map(object(
     {
       name = string
@@ -30,7 +30,7 @@ variable "primaryPublicSubnetCidrs" {
   description = "GCP primary public subnets"
 }
 
-variable "primaryPrivateSubnetCidrs" {
+variable "primary_private_subnet_cidrs" {
   type = map(object(
     {
       name = string
@@ -40,7 +40,7 @@ variable "primaryPrivateSubnetCidrs" {
   description = "GCP primary private subnets"
 }
 
-variable "secondaryPublicSubnetCidrs" {
+variable "secondary_public_subnet_cidrs" {
   type = map(object(
     {
       name = string
@@ -50,7 +50,7 @@ variable "secondaryPublicSubnetCidrs" {
   description = "GCP secondary public subnets"
 }
 
-variable "secondaryPrivateSubnetCidrs" {
+variable "secondary_private_subnet_cidrs" {
   type = map(object(
     {
       name = string

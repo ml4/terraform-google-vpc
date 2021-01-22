@@ -27,41 +27,41 @@ output "gcn-gcn-main-description" {
   description = "Google Compute Network (VPC): Google Compute Network main description"
 }
 
-output "gcn-gcn-main-routingMode" {
+output "gcn-gcn-main-routing_mode" {
   value       = google_compute_network.main.routing_mode
   description = "Google Compute Network (VPC): Google Compute Network main routing mode"
 }
 
-output "gcn-gcn-main-gatewayIpv4" {
+output "gcn-gcn-main-gateway_ipv4" {
   value       = google_compute_network.main.gateway_ipv4
   description = "Google Compute Network (VPC): Google Compute Network main IPV4 gateway"
 }
 
 ## primary public subnet
 #
-output "gcn-gcsn-primaryPublic-ipCidrRange" {
-  value       = values(google_compute_subnetwork.primaryPublic)[*].ip_cidr_range
+output "gcn-gcsn-primary_public-ip_cidr_range" {
+  value       = values(google_compute_subnetwork.primary_public)[*].ip_cidr_range
   description = "Google Compute Network (VPC): Google Compute Subnet primary public IP CIDR range"
 }
 
-output "gcn-gcsn-primaryPublic-name" {
-  value       = values(google_compute_subnetwork.primaryPublic)[*].name
+output "gcn-gcsn-primary_public-name" {
+  value       = values(google_compute_subnetwork.primary_public)[*].name
   description = "Google Compute Network (VPC): Google Compute Subnet primary public name"
 }
 
-output "gcn-gcsn-primaryPublic-region" {
-  value       = values(google_compute_subnetwork.primaryPublic)[*].region
+output "gcn-gcsn-primary_public-region" {
+  value       = values(google_compute_subnetwork.primary_public)[*].region
   description = "Google Compute Network (VPC): Google Compute Subnet primary public region"
 }
 
-output "gcn-gcsn-primaryPublic-gatewayAddress" {
-  value       = values(google_compute_subnetwork.primaryPublic)[*].gateway_address
+output "gcn-gcsn-primary_public-gateway_address" {
+  value       = values(google_compute_subnetwork.primary_public)[*].gateway_address
   description = "Google Compute Network (VPC): Google Compute Subnet primary public gateway address"
 }
 
 ## secondary public subnet
 #
-output "gcn-gcsn-secondaryPublic-ipCidrRange" {
+output "gcn-gcsn-secondaryPublic-ip_cidr_range" {
   value       = values(google_compute_subnetwork.secondaryPublic)[*].ip_cidr_range
   description = "Google Compute Network (VPC): Google Compute Subnet secondary public IP CIDR range"
 }
@@ -76,14 +76,14 @@ output "gcn-gcsn-secondaryPublic-region" {
   description = "Google Compute Network (VPC): Google Compute Subnet secondary public region"
 }
 
-output "gcn-gcsn-secondaryPublic-gatewayAddress" {
+output "gcn-gcsn-secondaryPublic-gateway_address" {
   value       = values(google_compute_subnetwork.secondaryPublic)[*].gateway_address
   description = "Google Compute Network (VPC): Google Compute Subnet secondary public gateway address"
 }
 
 ## primary private subnet
 #
-output "gcn-gcsn-primaryPrivate-ipCidrRange" {
+output "gcn-gcsn-primaryPrivate-ip_cidr_range" {
   value       = values(google_compute_subnetwork.primaryPrivate)[*].ip_cidr_range
   description = "Google Compute Network (VPC): Google Compute Subnet primary private IP CIDR range"
 }
@@ -98,14 +98,14 @@ output "gcn-gcsn-primaryPrivate-region" {
   description = "Google Compute Network (VPC): Google Compute Subnet primary private region"
 }
 
-output "gcn-gcsn-primaryPrivate-gatewayAddress" {
+output "gcn-gcsn-primaryPrivate-gateway_address" {
   value       = values(google_compute_subnetwork.primaryPrivate)[*].gateway_address
   description = "Google Compute Network (VPC): Google Compute Subnet primary private gateway address"
 }
 
 ## secondary private subnet
 #
-output "gcn-gcsn-secondaryPrivate-ipCidrRange" {
+output "gcn-gcsn-secondaryPrivate-ip_cidr_range" {
   value       = values(google_compute_subnetwork.secondaryPrivate)[*].ip_cidr_range
   description = "Google Compute Network (VPC): Google Complete Subnet secondary private IP CIDR range"
 }
@@ -120,7 +120,7 @@ output "gcn-gcsn-secondaryPrivate-region" {
   description = "Google Compute Network (VPC): Google Complete Subnet secondary private region"
 }
 
-output "gcn-gcsn-secondaryPrivate-gatewayAddress" {
+output "gcn-gcsn-secondaryPrivate-gateway_address" {
   value       = values(google_compute_subnetwork.secondaryPrivate)[*].gateway_address
   description = "Google Compute Network (VPC): Google Complete Subnet secondary private gateway address"
 }
