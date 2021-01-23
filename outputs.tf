@@ -147,14 +147,3 @@ output "gcn-gcf-main-description" {
   description = "Google Compute Network (VPC): Google Compute Firewall main description"
 }
 
-## routing
-#
-# output "gcn-gca-hcPrimaryNatIp-address" {
-#   value = values(google_compute_address.hcPrimaryNatIp)[*].address
-#   description = "Google Compute Network (VPC): "
-# }
-
-# output "gcn-gca-hcSecondaryNatIp-address" {
-#   value = values(google_compute_address.hcSecondaryNatIp)[*].address
-#   description = "Google Compute Network (VPC): "
-# }

@@ -10,42 +10,42 @@ resource "google_compute_network" "main" {
 
 ## subnets
 #
-resource "google_compute_subnetwork" "primaryPublic" {
-  for_each = var.primaryPublicSubnetCidrs
+resource "google_compute_subnetwork" "primary_public" {
+  for_each = var.primary_public_subnet_cidrs
 
   name          = "${var.prefix}-${each.value.name}"
   ip_cidr_range = each.value.cidr
   network       = google_compute_network.main.self_link
-  region        = var.googlePrimaryRegion
+  region        = var.google_primary_region
 }
 
-resource "google_compute_subnetwork" "primaryPrivate" {
-  for_each = var.primaryPrivateSubnetCidrs
+resource "google_compute_subnetwork" "primary_private" {
+  for_each = var.primary_private_subnet_cidrs
 
   name                     = "${var.prefix}-${each.value.name}"
   ip_cidr_range            = each.value.cidr
   network                  = google_compute_network.main.self_link
   private_ip_google_access = true
-  region                   = var.googlePrimaryRegion
+  region                   = var.google_primary_region
 }
 
-resource "google_compute_subnetwork" "secondaryPublic" {
-  for_each = var.secondaryPublicSubnetCidrs
+resource "google_compute_subnetwork" "secondary_public" {
+  for_each = var.secondary_public_subnet_cidrs
 
   name          = "${var.prefix}-${each.value.name}"
   ip_cidr_range = each.value.cidr
   network       = google_compute_network.main.self_link
-  region        = var.googleSecondaryRegion
+  region        = var.google_secondary_region
 }
 
-resource "google_compute_subnetwork" "secondaryPrivate" {
-  for_each = var.secondaryPrivateSubnetCidrs
+resource "google_compute_subnetwork" "secondary_private" {
+  for_each = var.secondary_private_subnet_cidrs
 
   name                     = "${var.prefix}-${each.value.name}"
   ip_cidr_range            = each.value.cidr
   network                  = google_compute_network.main.self_link
   private_ip_google_access = true
-  region                   = var.googleSecondaryRegion
+  region                   = var.google_secondary_region
 }
 
 ## FWs
@@ -73,24 +73,24 @@ resource "google_compute_firewall" "main" {
 
 ## primary routing
 #
-resource "google_compute_router" "primaryRtr" {
+resource "google_compute_router" "primary_rtr" {
   name    = "${var.prefix}-primary-rtr"
   network = google_compute_network.main.self_link
-  region  = var.googlePrimaryRegion
+  region  = var.google_primary_region
 }
 
 resource "google_compute_address" "primaryNatIp" {
-  for_each = var.primaryPublicSubnetCidrs
+  for_each = var.primary_public_subnet_cidrs
 
   name    = "${var.prefix}-primary-${each.value.name}"
   project = var.googleProject
-  region  = var.googlePrimaryRegion
+  region  = var.google_primary_region
 }
 
 resource "google_compute_router_nat" "primaryNgw" {
   name                               = "${var.prefix}-primary-ngw"
-  router                             = google_compute_router.primaryRtr.name
-  region                             = var.googlePrimaryRegion
+  router                             = google_compute_router.primary_rtr.name
+  region                             = var.google_primary_region
   nat_ip_allocate_option             = "AUTO_ONLY"
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
   depends_on = [
@@ -100,24 +100,24 @@ resource "google_compute_router_nat" "primaryNgw" {
 
 ## secondary routing
 #
-resource "google_compute_router" "secondaryRtr" {
+resource "google_compute_router" "secondary_rtr" {
   name    = "${var.prefix}-secondary-rtr"
   network = google_compute_network.main.self_link
-  region  = var.googleSecondaryRegion
+  region  = var.google_secondary_region
 }
 
 resource "google_compute_address" "secondaryNatIp" {
-  for_each = var.secondaryPublicSubnetCidrs
+  for_each = var.secondary_public_subnet_cidrs
 
   name    = "${var.prefix}-secondary-${each.value.name}"
   project = var.googleProject
-  region  = var.googleSecondaryRegion
+  region  = var.google_secondary_region
 }
 
 resource "google_compute_router_nat" "hcSecondaryNgw" {
   name                               = "${var.prefix}-secondary-ngw"
-  router                             = google_compute_router.secondaryRtr.name
-  region                             = var.googleSecondaryRegion
+  router                             = google_compute_router.secondary_rtr.name
+  region                             = var.google_secondary_region
   nat_ip_allocate_option             = "AUTO_ONLY"
   source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
   depends_on = [
