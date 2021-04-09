@@ -1,12 +1,12 @@
-## outputs.tf child module terraform configuration
-## Nomenclature: <d>-<e>-<f>-<g>-<h>
-## where
-## d = linked resource abbreviation (some resources in a mod are only there to support a main resource)
-## e = abbreviated resource
-## f = resource name
-## g = resource parameter to output
-## h = resource subparameter if applicable
-#
+//// outputs.tf child module terraform configuration
+//// Nomenclature: <d>-<e>-<f>-<g>-<h>
+//// where
+//// d = linked resource abbreviation (some resources in a mod are only there to support a main resource)
+//// e = abbreviated resource
+//// f = resource name
+//// g = resource parameter to output
+//// h = resource subparameter if applicable
+//
 output "gcn-gcn-main-self_link" {
   value       = google_compute_network.main.self_link
   description = "Google Compute Network (VPC): Google Compute Network main self link"
@@ -37,8 +37,8 @@ output "gcn-gcn-main-gateway_ipv4" {
   description = "Google Compute Network (VPC): Google Compute Network main IPV4 gateway"
 }
 
-## primary public subnet
-#
+//// primary public subnet
+//
 output "gcn-gcsn-primary_public-ip_cidr_range" {
   value       = values(google_compute_subnetwork.primary_public)[*].ip_cidr_range
   description = "Google Compute Network (VPC): Google Compute Subnet primary public IP CIDR range"
@@ -59,8 +59,8 @@ output "gcn-gcsn-primary_public-gateway_address" {
   description = "Google Compute Network (VPC): Google Compute Subnet primary public gateway address"
 }
 
-## secondary public subnet
-#
+//// secondary public subnet
+//
 output "gcn-gcsn-secondaryPublic-ip_cidr_range" {
   value       = values(google_compute_subnetwork.secondaryPublic)[*].ip_cidr_range
   description = "Google Compute Network (VPC): Google Compute Subnet secondary public IP CIDR range"
@@ -81,8 +81,8 @@ output "gcn-gcsn-secondaryPublic-gateway_address" {
   description = "Google Compute Network (VPC): Google Compute Subnet secondary public gateway address"
 }
 
-## primary private subnet
-#
+//// primary private subnet
+//
 output "gcn-gcsn-primaryPrivate-ip_cidr_range" {
   value       = values(google_compute_subnetwork.primaryPrivate)[*].ip_cidr_range
   description = "Google Compute Network (VPC): Google Compute Subnet primary private IP CIDR range"
@@ -103,8 +103,8 @@ output "gcn-gcsn-primaryPrivate-gateway_address" {
   description = "Google Compute Network (VPC): Google Compute Subnet primary private gateway address"
 }
 
-## secondary private subnet
-#
+//// secondary private subnet
+//
 output "gcn-gcsn-secondaryPrivate-ip_cidr_range" {
   value       = values(google_compute_subnetwork.secondaryPrivate)[*].ip_cidr_range
   description = "Google Compute Network (VPC): Google Complete Subnet secondary private IP CIDR range"
@@ -125,8 +125,8 @@ output "gcn-gcsn-secondaryPrivate-gateway_address" {
   description = "Google Compute Network (VPC): Google Complete Subnet secondary private gateway address"
 }
 
-## firewall
-#
+//// firewall
+//
 output "gcn-gcf-main-name" {
   value       = google_compute_firewall.main.name
   description = "Google Compute Network (VPC): Google Compute Firewall main name"
