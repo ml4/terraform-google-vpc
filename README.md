@@ -1,4 +1,4 @@
-# GCP VPC
+# terraform-google-vpc
 Terraform GCP network module
 
 <!-- BEGIN_TF_DOCS -->
